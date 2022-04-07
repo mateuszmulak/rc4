@@ -15,6 +15,19 @@ def parse_args():
     return args_dict
 
 
+def get_stream(pasp):
+    S = get_key(pasp)
+    i = 0
+    j = 0
+    while True:
+        i = (i + 1) % 256
+        j = (j + S[i]) % 256
+
+        S[i], S[j] = S[j], S[i]
+        W = S[(S[i] + S[j]) % 256]
+        yield W
+
+
 def get_key(p):
     passphrase_len = len(p)
     S = []
@@ -27,19 +40,6 @@ def get_key(p):
         S[i], S[j] = S[j], S[i]
 
     return S
-
-
-def get_stream(pasp):
-    S = get_key(pasp)
-    i = 0
-    j = 0
-    while True:
-        i = (i + 1) % 256
-        j = (j + S[i]) % 256
-
-        S[i], S[j] = S[j], S[i]
-        W = S[(S[i] + S[j]) % 256]
-        yield W
 
 
 def main():
@@ -57,7 +57,7 @@ def main():
 
     res = []
     for k in input_txt:
-        x = (k ^ next(stream))
+        x = k ^ next(stream)
         res.append(x)
 
     res_str = ''.join([chr(i) for i in res])
