@@ -2,7 +2,7 @@ import argparse
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='RC4 algorithm implementation')
+    parser = argparse.ArgumentParser(description='Script to encrypt text using the rc4 cipher.')
 
     parser.add_argument('input_file', metavar='input_file', type=str, nargs='+',
                         help='input file')
